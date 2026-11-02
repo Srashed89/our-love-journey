@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Layout: a keepsake booklet — script-signed cover, a gold-ruled tab bar, one chapter at a time on a blush page. */
+/* A deliberate single blush look, kept the same whatever the phone's light/dark setting. */
+:root {
+  color-scheme: light;
+  --paper: #fbf1ef;      /* page ground */
+  --blush: #f4d9d6;      /* soft fills */
+  --petal: #ead0cc;      /* borders */
+  --rose: #b76e64;       /* rose gold */
+  --crimson: #8f1d33;    /* warm crimson, main accent */
+  --wine: #4a1621;       /* deep text */
+  --gold: #c49a4a;       /* gold leaf */
+  --gold-soft: #e9d3a3;
+  --ink-soft: #7a4a50;   /* secondary text */
+  --card: #fffaf8;
+  --good: #2f7a52;
+  --bad: #a3263a;
+  --font-display: "Bodoni Moda Variable", "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+  --font-script: "Pinyon Script", "Snell Roundhand", "Apple Chancery", cursive;
+  --font-body: "Jost", "Futura", "Avenir Next", "Segoe UI", sans-serif;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+html, body { background: var(--paper); color: var(--wine); }
+html { -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background:
+    radial-gradient(1200px 500px at 50% -120px, var(--blush), transparent 70%),
+    var(--paper);
+  min-height: 100vh;
+  overscroll-behavior-y: none;
+}
+/* paints the band under the phone's status bar so content never shows through it */
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px);
+  z-index: 30; background: var(--paper);
+}
+h1, h2, h3 { text-wrap: balance; }
+button { -webkit-user-select: none; user-select: none; touch-action: manipulation; }
+.font-display { font-family: var(--font-display); }
+.font-script { font-family: var(--font-script); font-weight: 400; }
+.eyebrow { letter-spacing: .22em; text-transform: uppercase; font-size: .72rem; font-weight: 500; }
+.tabnums { font-variant-numeric: tabular-nums; }
+.gold-rule { height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.gold-text {
+  background: linear-gradient(120deg, #a77b2f, var(--gold) 35%, #f0dca8 50%, var(--gold) 65%, #a77b2f);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+button:focus-visible, [role="tab"]:focus-visible, .flip:focus-visible {
+  outline: 2px solid var(--crimson); outline-offset: 3px;
+}
+
+/* flip cards */
+.flip { perspective: 1200px; cursor: pointer; }
+.flip-inner { position: relative; width: 100%; height: 100%; transition: transform .8s cubic-bezier(.2,.75,.2,1); transform-style: preserve-3d; }
+.flip.is-flipped .flip-inner { transform: rotateY(180deg); }
+.flip-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 18px; }
+.flip-back { transform: rotateY(180deg); }
+.card-front {
+  background:
+    radial-gradient(circle at 50% 42%, rgba(196,154,74,.18), transparent 55%),
+    linear-gradient(160deg, var(--crimson), var(--wine));
+  box-shadow: inset 0 0 0 1px rgba(233,211,163,.55), inset 0 0 0 7px var(--crimson), inset 0 0 0 8px rgba(233,211,163,.4), 0 14px 30px -18px rgba(74,22,33,.7);
+}
+.card-back { background: var(--card); box-shadow: inset 0 0 0 1px var(--petal), inset 0 0 0 7px var(--card), inset 0 0 0 8px var(--gold-soft), 0 14px 30px -18px rgba(74,22,33,.45); }
+
+/* motion */
+@keyframes rise { from { opacity: .0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes pop { 0% { transform: scale(.9); } 60% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+@keyframes beat { 0%,100% { transform: scale(1); } 15% { transform: scale(1.15); } 30% { transform: scale(1); } 45% { transform: scale(1.1); } }
+@keyframes floatUp { 0% { transform: translateY(0) scale(.6); opacity: 0; } 15% { opacity: .9; } 100% { transform: translateY(-90px) scale(1.1); opacity: 0; } }
+.anim-rise { animation: rise .5s ease both; }
+.anim-pop { animation: pop .45s ease both; }
+.anim-shake { animation: shake .4s ease both; }
+.anim-beat { animation: beat 1.6s ease-in-out infinite; }
+.float-heart { position: absolute; animation: floatUp 1.6s ease-out forwards; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+/* timeline */
+.tl-line { background: linear-gradient(180deg, var(--gold-soft), var(--rose), var(--crimson)); }
+.scroll-x { overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--gold-soft) transparent; -webkit-overflow-scrolling: touch; }

@@ -1,0 +1,8 @@
+/* Self-hosted fonts so the app looks right offline. Latin subsets only. */
+@import "@fontsource/jost/latin-300.css";
+@import "@fontsource/jost/latin-400.css";
+@import "@fontsource/jost/latin-500.css";
+@import "@fontsource/jost/latin-600.css";
+@import "@fontsource/pinyon-script/latin-400.css";
+@import "@fontsource-variable/bodoni-moda/opsz.css";
+@import "@fontsource-variable/bodoni-moda/opsz-italic.css";
